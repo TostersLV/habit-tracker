@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HabitController;
+use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +23,7 @@ Route::post('/create', [HabitController::class, 'store'])->middleware(['auth'])-
 Route::delete('/habits/{habit}', [HabitController::class, 'destroy'])->middleware(['auth'])->name('habits.destroy');
 Route::post('/habits/{habit}/completed', [HabitController::class, 'setCompletedToday'])->name('habits.completed');
 Route::get  ('/calendar', [HabitController::class, 'calendar'])->middleware(['auth'])->name('calendar');
+
 
 Route::post('/habits/{habit}/completed-today', [HabitController::class, 'setCompletedToday'])
     ->middleware(['auth'])

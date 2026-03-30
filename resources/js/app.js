@@ -11,8 +11,7 @@ if (chartElement) {
 
 
 window.Alpine = Alpine;
-
-Alpine.start();
+Livewire.start()
 
 
 function getPreferredTheme() {

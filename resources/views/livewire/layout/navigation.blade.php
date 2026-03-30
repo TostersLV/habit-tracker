@@ -12,7 +12,7 @@ new class extends Component
     {
         $logout();
 
-        $this->redirect('/', navigate: true);
+    $this->redirect(route('login'), navigate: true);
     }
 }; ?>
 
@@ -21,10 +21,13 @@ new class extends Component
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
+                <!-- Logo / Mobile Brand -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate>
                         
+                    </a>
+                    <a href="{{ route('dashboard') }}" wire:navigate class="sm:hidden font-bold text-gray-800 dark:text-gray-100 text-base tracking-tight">
+                        BadHabits
                     </a>
                 </div>
 
@@ -85,11 +88,9 @@ new class extends Component
                         </x-dropdown-link>
 
                         <!-- Authentication -->
-                        <button wire:click="logout" class="w-full text-start">
-                            <x-dropdown-link>
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </button>
+                        <x-dropdown-link wire:click.prevent="logout" class="cursor-pointer">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -116,22 +117,38 @@ new class extends Component
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-                <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
-            </div>
+            
 
             <div class="mt-3 space-y-1">
+                
+                <x-responsive-nav-link :href="route('index')" :active="request()->routeIs('/index')" wire:navigate>
+                    {{ __('Habits') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('create')" :active="request()->routeIs('/create')" wire:navigate>
+                    {{ __('Create') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('calendar')" :active="request()->routeIs('/calendar')" wire:navigate>
+                    {{ __('Calendar') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('leaderboard')" :active="request()->routeIs('/leaderboard')" wire:navigate>
+                    {{ __('Leaderboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('statitics')" :active="request()->routeIs('/statitics')">
+                    {{ __('Stastitics') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
+                <div class="px-4">
+                <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
+                <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
+            </div>
+
                 <!-- Authentication -->
-                <button wire:click="logout" class="w-full text-start">
-                    <x-responsive-nav-link>
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </button>
+                <x-dropdown-link wire:click.prevent="logout" class="cursor-pointer">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
             </div>
         </div>
     </div>

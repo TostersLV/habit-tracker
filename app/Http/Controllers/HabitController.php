@@ -168,7 +168,24 @@ public function statitics(Request $request)
         $badSeries[]  = [$timestamp, $dayLogs->filter(fn($l) => $l->habit->type === 'bad')->count()];
     }
 
-    return view('habits.chart', compact('goodSeries', 'badSeries'));
+    
+    $thisWeekLogs = $logs->filter(function ($log) {
+    return Carbon::parse($log->completed_at)->between(
+        now()->startOfWeek(),
+        now()->endOfWeek()
+    );
+});
+
+$total = $thisWeekLogs->count();
+$goodCount = $thisWeekLogs->filter(fn($l) => $l->habit->type === 'good')->count();
+$badCount  = $thisWeekLogs->filter(fn($l) => $l->habit->type === 'bad')->count();
+
+$weeklyStats = [
+    'good_percent' => $total > 0 ? round(($goodCount / $total) * 100) : 0,
+    'bad_percent'  => $total > 0 ? round(($badCount  / $total) * 100) : 0,
+];
+
+return view('habits.chart', compact('goodSeries', 'badSeries', 'weeklyStats'));
 }
 
 }
