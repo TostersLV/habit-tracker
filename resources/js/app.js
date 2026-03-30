@@ -33,8 +33,7 @@ function applyTheme(theme) {
 
 function updateThemeToggleIcons() {
     const isDark = document.documentElement.classList.contains('dark');
-    
-    // Select all potential toggle icons (desktop and mobile)
+
     const darkIcons = document.querySelectorAll('[id^="theme-toggle-dark-icon"]');
     const lightIcons = document.querySelectorAll('[id^="theme-toggle-light-icon"]');
 
@@ -48,11 +47,11 @@ function initTheme() {
     updateThemeToggleIcons();
 }
 
-// Initial Run
+
 initTheme();
 
 document.addEventListener('click', (event) => {
-    // Matches any button ID starting with 'theme-toggle' (covers 'theme-toggle' and 'theme-toggle-mobile')
+   
     const toggleButton = event.target.closest('[id^="theme-toggle"]');
     if (!toggleButton) return;
 
@@ -64,7 +63,6 @@ document.addEventListener('click', (event) => {
     updateThemeToggleIcons();
 });
 
-// Re-sync icons when Livewire navigates to a new page
 document.addEventListener('livewire:navigated', () => {
     initTheme(); 
 });
