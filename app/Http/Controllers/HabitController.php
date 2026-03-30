@@ -40,7 +40,7 @@ public function setCompletedToday(Request $request, $habitId)
 
     return redirect()->back();
 }
-
+// izveido ieradumu
     public function create(){
         return view("habits.create");
     }
@@ -64,7 +64,7 @@ public function setCompletedToday(Request $request, $habitId)
     }
 
    
-
+// parada visu nepieciesamo informaciju kalendara
 public function calendar(Request $request)
 {
     $userId = $request->user()->id;
@@ -113,7 +113,7 @@ public function calendar(Request $request)
 
     return view('habits.calendar', compact('dates'));
 }
-
+// izdzes ieradumu
 public function destroy(Request $request, Habit $habit)
 {
     if ($habit->user_id !== $request->user()->id) {
@@ -124,7 +124,7 @@ public function destroy(Request $request, Habit $habit)
 
     return redirect()->back();
 }
-
+//leaderboard
 public function leaderboard(){
     $rows = User::with(['habit.habitLogs'])
         ->get()
@@ -143,6 +143,7 @@ public function leaderboard(){
 
     return view('habits.leaderboard', compact('rows'));
 }
+// stastistika
 public function statitics(Request $request)
 {
     $userId = $request->user()->id;

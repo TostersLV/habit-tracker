@@ -26,7 +26,7 @@ class Habit extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    // izsuta e-pastu ja 2 dienu laika nav bijis atzimets kads labs ieradums
     public static function checkGoodHabit(): void{
 
       $Habits = Habit::all();
