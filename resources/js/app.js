@@ -9,10 +9,8 @@ if (chartElement) {
     renderHabitsChart(goodSeries, badSeries);
 }
 
-
 window.Alpine = Alpine;
-Livewire.start()
-
+Livewire.start();
 
 function getPreferredTheme() {
     const stored = localStorage.getItem('color-theme');
@@ -34,13 +32,14 @@ function applyTheme(theme) {
 }
 
 function updateThemeToggleIcons() {
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-    if (!themeToggleDarkIcon || !themeToggleLightIcon) return;
-
     const isDark = document.documentElement.classList.contains('dark');
-    themeToggleLightIcon.classList.toggle('hidden', !isDark);
-    themeToggleDarkIcon.classList.toggle('hidden', isDark);
+    
+    // Select all potential toggle icons (desktop and mobile)
+    const darkIcons = document.querySelectorAll('[id^="theme-toggle-dark-icon"]');
+    const lightIcons = document.querySelectorAll('[id^="theme-toggle-light-icon"]');
+
+    darkIcons.forEach(icon => icon.classList.toggle('hidden', isDark));
+    lightIcons.forEach(icon => icon.classList.toggle('hidden', !isDark));
 }
 
 function initTheme() {
@@ -49,20 +48,23 @@ function initTheme() {
     updateThemeToggleIcons();
 }
 
+// Initial Run
 initTheme();
 
 document.addEventListener('click', (event) => {
-    const toggleButton = event.target.closest('#theme-toggle');
+    // Matches any button ID starting with 'theme-toggle' (covers 'theme-toggle' and 'theme-toggle-mobile')
+    const toggleButton = event.target.closest('[id^="theme-toggle"]');
     if (!toggleButton) return;
 
-    const isDark = document.documentElement.classList.contains('dark');
-    const nextTheme = isDark ? 'light' : 'dark';
+    const isCurrentlyDark = document.documentElement.classList.contains('dark');
+    const nextTheme = isCurrentlyDark ? 'light' : 'dark';
 
     applyTheme(nextTheme);
     localStorage.setItem('color-theme', nextTheme);
     updateThemeToggleIcons();
 });
 
+// Re-sync icons when Livewire navigates to a new page
 document.addEventListener('livewire:navigated', () => {
-    updateThemeToggleIcons();
+    initTheme(); 
 });
